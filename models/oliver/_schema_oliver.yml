@@ -3,15 +3,41 @@ version: 2
 models:
   - name: oliver_dim_customer
     description: "Oliver Customer Dimension"
+    columns:
+      - name: cust_key
+        tests:
+          - unique
   - name: oliver_dim_date
     description: "Oliver Date Dimension"
   - name: oliver_dim_employee
     description: "Oliver Employee Dimension"
+    columns:
+      - name: employee_key
+        tests:
+          - not_null
   - name: oliver_dim_product
     description: "Oliver Product Dimension"
+    columns:
+      - name: product_name
+        tests:
+          - accepted_values:
+              arguments: 
+                values: 
+                  - "Small Popcorn"
+                  - "Gummy Bears"
+                  - "Small Coffee"
+                  - "Chocolate Bar"
+                  - "Marshmallows"
   - name: oliver_dim_store
     description: "Oliver Store Dimension"
   - name: fact_sales
     description: "Oliver Sales Fact "
+    columns:
+      - name: customer_key
+        tests:
+          - relationships:
+              arguments:
+                to: ref('oliver_dim_customer')
+                field: cust_key
   - name: stg_employee_certificantions
     description: "Staging Table For Employee Certifications"
